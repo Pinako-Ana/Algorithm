@@ -1,32 +1,26 @@
 #include <iostream>
 #include <stack>
+#include <vector>
 using namespace std;
-stack <int > A, NGE;
+vector <int > A;
+stack <int > NGE, cmp;
 int main(void){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
 	int n,x; cin >> n;
 	for (int i = 0; i < n; i++){
 		cin >> x;
-		A.push(x);
+		A.push_back(x);
 	}
-	int pos, max1 = -1, nmax = -1;
-	for (int k = 0; k < n; k++){
-		pos = A.top();
-		if(pos < max1){
-			NGE.push(max1);
-			if(nmax < max1) nmax = max1;
-			max1 = pos;
-		}else{
-			if(!NGE.empty() && pos < NGE.top()) NGE.push(NGE.top());
-			else if(!NGE.empty() && pos < nmax) NGE.push(nmax);
-			else NGE.push(-1);
-			max1 = pos;
-		}
-		A.pop();
+	for (int k = n-1; k >= 0; k--){
+		while(!cmp.empty() && cmp.top() <= A[k]) cmp.pop();
+		if(cmp.empty()) NGE.push(-1);
+		else NGE.push(cmp.top());
+		cmp.push(A[k]);
 	}
-	for (int f = 0; f < n-1; f++){
+	for (int f = 0; f < n; f++){
 		cout << NGE.top() << " ";
 		NGE.pop();
 	}
-	cout << NGE.top();
 	return 0;
 }
