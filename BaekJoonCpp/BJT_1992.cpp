@@ -1,36 +1,29 @@
 #include <iostream>
-#define N 64
-
 using namespace std;
-char a[N][N];
-
-
+char a[64][64];
 void quadtree(int x, int y, int n){
-    if(N == 1){
-        cout << a[x][y];
-        return ;
+    char elmt = a[x][y];
+    int cnt = 0;
+    bool check = true;
+    for (int i = x; i < x+n; i++){
+        for (int j = y; j < y+n; j++){
+            if(elmt == a[i][j]) cnt++;
+            else check = false;
+        }if(check == false) break;
     }
-    string i = quadtree(x,y,n/2);
-    string j = quadtree(x,y+n/2, n/2);
-    string k = quadtree(x+n/2,y,n/2);
-    string l = quadtree(x+n/2,y+n/2,n/2);
-
-    if(i == j && j == k && k == l){
-        return i;
-    }else{
-        return "("+ i + j + k + l + ")";
+    if(check == true) cout << elmt;
+    else{
+        cout << '(';
+        quadtree(x,y,n/2);
+        quadtree(x,y+n/2,n/2);
+        quadtree(x+n/2,y,n/2);
+        quadtree(x+n/2,y+n/2,n/2);
+        cout << ')';
     }
 }
-
-
-
 int main(void){
-    int n;
-
-    cin >> n;
-    for (int i = 0; i < n; i++){
-        scanf("%s", &a[i]);
-    }
-    cout << quadtree(0,0,n);
+    int n; cin >> n;
+    for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) cin >> a[i][j];
+    quadtree(0,0,n);
     return 0;
 }
