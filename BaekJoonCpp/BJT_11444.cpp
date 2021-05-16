@@ -1,28 +1,30 @@
 #include <iostream>
-#include <algorithm>
 using namespace std;
-int A[100001];
-void binarysearch(int n, int x){
-	int begin = 0;
-	int end = n-1;
-	while(begin <= end){
-		int mid = (end + begin)/2;
-		if(A[mid] == x) {
-			printf("1\n");
-			return;
+long long p = 1000000007;
+long long answer[2][2] = {{1,0},{0,1}};
+long long E[2][2] = {{1,1},{1,0}};
+long long temp[2][2];
+void matpow(long long a[2][2], long long b[2][2]){
+	for (int i = 0; i < 2; i++){
+		for (int j = 0; j < 2; j++){
+			temp[i][j] = 0;
+			for (int k = 0; k < 2; k++){
+				temp[i][j] += (a[i][k] * b[k][j])%p;
+			}
+			temp[i][j] %= p;
 		}
-		else if(A[mid] < x) begin = mid + 1;
-		else if(x < A[mid]) end = mid - 1;
 	}
-	printf("0\n");
+	for (int i = 0; i < 2; i++){
+		for (int j = 0; j < 2; j++){
+			a[i][j] = temp[i][j];}}
 }
 int main(){
-	int N, M, p; scanf("%d",&N);
-	for (int i = 0; i < N; i++) scanf("%d",&A[i]);
-	sort(A,A+N);
-	scanf("%d", &M);
-	for (int i = 0; i < M; i++){
-		scanf("%d", &p);
-		binarysearch(N,p);
+	long long n; cin >> n;
+	while(n > 0){
+		if(n%2) matpow(answer,E);
+		matpow(E,E);
+		n /= 2;
 	}
+	cout << answer[1][0];
+	return 0;
 }
