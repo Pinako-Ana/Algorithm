@@ -7,7 +7,7 @@ int main(void){
 	}
 	for (i = 1; i <= N; i++){
 		for (j = 1; j < i; j++)
-			if(arr[i] > arr[j] && dp[i] == dp[j]) dp[i] = dp[j] + 1;
+			if(arr[i] > arr[j] && dp[i] == dp[j]) dp[i]++;
 		if(dp[i] > m) m = dp[i];
 	}
 	printf("%d",m);
